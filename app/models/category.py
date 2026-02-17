@@ -25,4 +25,4 @@ class Category(Base):
         return cls(id=id, name=name)
     
     def __repr__(self) -> str:
-        return f"Category(id={self.id!r}, name={self.name!r}"
+        return f"Category(id={self.id!r}, name={self.name!r})"
