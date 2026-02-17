@@ -1,0 +1,1 @@
+# Endpoints to handle API requests for the product categories
