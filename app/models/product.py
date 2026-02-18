@@ -24,7 +24,7 @@ class Product(Base):
         if not data:
             raise ValueError(f"Empty dictionary provided")
         
-        required = {"name", "price", "category_id"}
+        required = {"name", "price"}
         missing = [key for key in required if data.get(key) is None]
 
         if missing:
