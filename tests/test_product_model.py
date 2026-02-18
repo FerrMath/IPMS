@@ -3,7 +3,7 @@ from app.models.category import Category
 import pytest
 
 class TestProductModel:
-    def test_creat_product_with_valid_data_of_only_required_attributes_before_persistence(self):
+    def test_create_product_with_valid_data_of_only_required_attributes_before_persistence(self):
         p = Product(name="Produto", price=123.45)
         assert p.name == "Produto"
         assert p.price == 123.45
