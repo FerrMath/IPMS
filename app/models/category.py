@@ -25,4 +25,5 @@ class Category(Base):
         return cls(id=id, name=name)
     
     def __repr__(self) -> str:
-        return f"Category(id={self.id!r}, name={self.name!r})"
+        count = len(self.products) if "products" in self.__dict__ else "not loaded"
+        return f"Category(id={self.id!r}, name={self.name!r}, products={count})"

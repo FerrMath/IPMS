@@ -4,4 +4,4 @@ from app.utils import get_db_url
 
 DATABASE_URL = get_db_url()
 engine = create_engine(f"{DATABASE_URL}", future=True)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
