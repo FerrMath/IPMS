@@ -21,7 +21,7 @@ class CategoryController(GeneralController[Category]):
     @transactional
     def get_category_with_prods(self, obj_id:int, session: Session|None =None ) -> Category | None:
         stmt = select(Category).options(selectinload(Category.products)).where(Category.id == obj_id)
-        cat = session.execute(stmt).scalar_one()
+        cat = session.execute(stmt).scalar_one() # type: ignore
         return cat
     
     @transactional
