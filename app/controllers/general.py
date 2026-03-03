@@ -7,6 +7,18 @@ from app.db.engine import SessionLocal
 T = TypeVar("T", bound=DeclarativeBase)
 
 def transactional(func):
+    """Decorator that wraps methods in a database transaction.
+    
+    Provides a SQLAlchemy session using `SessionLocal`and in injects it into the decorated method/function.
+    If an exception is raised, the transaction is rolled back and the exception
+    is re-raised.
+
+    Args:
+        func (Callable): Function to be wrapped. It must accept a `session` keyword argument
+
+    Returns:
+        Callable: The wrapped function to be executed
+    """
     @wraps(func)
     def wrapper(*args, **kwargs):
         with SessionLocal() as session:

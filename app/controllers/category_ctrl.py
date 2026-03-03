@@ -11,11 +11,11 @@ class CategoryController(GeneralController[Category]):
         super().__init__(Category)
     
     @transactional
-    def get_category_by_id(self, session:Session,  obj_id:int) -> Category | None:
-        return self.get_by_id(session, obj_id)
+    def get_category_by_id(self, obj_id:int, session:Session | None = None) -> Category | None:
+        return self.get_by_id(session, obj_id)  # type: ignore
     
     @transactional
-    def get_all_categories(self, session=None):
+    def get_all_categories(self, ession:Session | None = None):
         return self.get_all(session=session) # type: ignore
     
     @transactional
@@ -29,9 +29,9 @@ class CategoryController(GeneralController[Category]):
         return self.save(session, obj) # type: ignore
     
     @transactional
-    def update_category(self, session: Session, obj_id:int, data:dict) -> Category | None:
-        return self.update(session, obj_id, data)
+    def update_category(self, obj_id:int, data:dict, session: Session|None =None) -> Category | None:
+        return self.update(session, obj_id, data)  # type: ignore
     
     @transactional
-    def delete_category(self, session: Session, obj: Category) -> None:
-        return self.delete(session, obj)
+    def delete_category(self, obj: Category, session: Session | None) -> None:
+        return self.delete(session, obj)  # type: ignore
