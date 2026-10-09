@@ -24,13 +24,20 @@ class TestCategoryModel:
     def test_create_category_with_non_dict_data_format_raises_type_error(self):
         data = [1, "A valid name"]
         with pytest.raises(TypeError, match=f"Data must be a dict. Got {type(data).__name__}"):
-            Category.from_dict(data)
+            Category.from_dict(data) # type: ignore
 
     def test_create_category_from_dict_with_missing_necessary_params_raises_value_error(self):
-        data = {"name":"A valid name"}
-        with pytest.raises(ValueError, match=f"Missing required fields: both 'id' and 'name' are required"):
+        data = {"id":123}
+        with pytest.raises(ValueError, match=f"Missing required field: 'name' is required"):
             Category.from_dict(data)
-        
+
+    def test_create_category_from_dict_with_just_name_param_returns_valid_category_Object(self):
+        data = {"name":"cat1"}
+        c = Category.from_dict(data)
+
+        assert c.name == "cat1"
+        assert c.id is None
+    
     def test_create_relationship_with_product(self):
         c = Category.from_dict({"id":3,"name":"Game"})
         p = Product()

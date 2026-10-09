@@ -1,0 +1,1 @@
+from app.controllers.category_ctrl import CategoryController

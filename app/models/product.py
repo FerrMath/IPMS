@@ -16,7 +16,7 @@ from datetime import datetime
 class Product(Base):
     __tablename__ = "products"
     __table_args__ = (
-        CheckConstraint("price >= 0", name="ck_product_price_non_negative"),
+        CheckConstraint("price > 0", name="ck_product_price_positive"),
         CheckConstraint("stock >= 0", name="ck_product_stock_non_negative"),
         CheckConstraint("rating >= 0 AND rating <= 5", name="ck_product_rating_range"),
     )
@@ -28,7 +28,7 @@ class Product(Base):
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
     stock: Mapped[Integer] = mapped_column(Integer, default=0, server_default="0")
     rating: Mapped[Decimal] = mapped_column(Numeric(10, 2), default=0.0, server_default="0")
-    discontinued: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
+    discontinued: Mapped[bool] = mapped_column(Boolean, default=False, server_default="0")
     release_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False, server_default=func.now())
     
     @classmethod
@@ -40,7 +40,7 @@ class Product(Base):
             raise ValueError(f"Empty dictionary provided")
         
         required = {"name", "price"}
-        missing = [key for key in required if data.get(key) is None]
+        missing = [key for key in required if data.get(key) is None or (key=="price" and data.get(key) <= 0)]
 
         if missing:
             raise ValueError(f"Missing required key/value: {missing}")
