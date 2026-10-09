@@ -15,7 +15,7 @@ class CategoryController(GeneralController[Category]):
         return self.get_by_id(session, obj_id)  # type: ignore
     
     @transactional
-    def get_all_categories(self, ession:Session | None = None):
+    def get_all_categories(self, session:Session | None = None):
         return self.get_all(session=session) # type: ignore
     
     @transactional

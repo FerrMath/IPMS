@@ -21,6 +21,12 @@ def transactional(func):
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
+        
+        session = kwargs.get("session")
+        
+        if session is not None:
+            return func(*args, **kwargs)
+        
         with SessionLocal() as session:
             try:
                 result = func(*args, session=session, **kwargs)

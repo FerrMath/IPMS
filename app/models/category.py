@@ -19,8 +19,8 @@ class Category(Base):
         id = data.get("id", None)
         name = data.get("name", None)
         
-        if not id or not name:
-            raise ValueError (f"Missing required fields: both 'id' and 'name' are required")
+        if not name:
+            raise ValueError (f"Missing required field: 'name' is required")
         
         return cls(id=id, name=name)
     

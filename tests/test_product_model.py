@@ -50,6 +50,28 @@ class TestProductModel:
         }
         with pytest.raises(ValueError, match=f"Missing required key/value"):
             Product.from_dict(data)
+
+    def test_create_product_with_all_required_attributes_but_with_price_zero_raises_value_error(self):
+        data = {
+            "price": 0,
+            "name":"name",
+            "stock": 123,
+            "discontinued": False,
+        }
+
+        with pytest.raises(ValueError, match="Missing required key/value"):
+            Product.from_dict(data)
+
+    def test_create_product_with_all_required_attributes_but_with_negative_price_raises_value_error(self):
+        data = {
+            "price": -123,
+            "name":"name",
+            "stock": 123,
+            "discontinued": False,
+        }
+
+        with pytest.raises(ValueError, match="Missing required key/value"):
+            Product.from_dict(data)
     
     def test_create_relationship_with_category(self):
         p = Product(id=3, name="Produto", price=543.21)
