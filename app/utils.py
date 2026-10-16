@@ -8,5 +8,5 @@ dotenv.load_dotenv()
 def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
-def get_db_url() -> str:
-    return os.getenv("DATABASE_URL", "")
+def get_db_url(test=False) -> str:
+    return os.getenv("DATABASE_URL", "") if not test else os.getenv("TEST_DATABASE_URL", "")
