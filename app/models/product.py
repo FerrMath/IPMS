@@ -16,7 +16,7 @@ from datetime import datetime
 class Product(Base):
     __tablename__ = "products"
     __table_args__ = (
-        CheckConstraint("price > 0", name="ck_product_price_positive"),
+        CheckConstraint("price > 0", name="ck_product_price_non_negative"),
         CheckConstraint("stock >= 0", name="ck_product_stock_non_negative"),
         CheckConstraint("rating >= 0 AND rating <= 5", name="ck_product_rating_range"),
     )
@@ -40,7 +40,18 @@ class Product(Base):
             raise ValueError(f"Empty dictionary provided")
         
         required = {"name", "price"}
-        missing = [key for key in required if data.get(key) is None or (key=="price" and data.get(key) <= 0)]
+        missing = []
+
+        for key in required:
+            v = data.get(key)
+            if v is None:
+                missing.append(v)
+                break
+            if key == "price" and type(v) == type(""):
+                raise TypeError(f"The value has to be a number, got {v}")
+            if key == "price" and float(v) <= 0:
+                raise ValueError(f"The price value must be more than Zero, got {v}")
+            
 
         if missing:
             raise ValueError(f"Missing required key/value: {missing}")

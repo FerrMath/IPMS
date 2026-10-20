@@ -41,7 +41,7 @@ class TestProductModel:
     def test_create_product_with_non_dict_data_format_raises_type_error(self):
         data = ["Produto", 1.50]
         with pytest.raises(TypeError, match=f"Data must be a dict"):
-            Product.from_dict(data)
+            Product.from_dict(data) #type: ignore
     
     def test_create_product_without_required_attributes_raises_value_error(self):
         data = {
@@ -59,7 +59,7 @@ class TestProductModel:
             "discontinued": False,
         }
 
-        with pytest.raises(ValueError, match="Missing required key/value"):
+        with pytest.raises(ValueError, match="The price value must be more than Zero, got"):
             Product.from_dict(data)
 
     def test_create_product_with_all_required_attributes_but_with_negative_price_raises_value_error(self):
@@ -70,7 +70,7 @@ class TestProductModel:
             "discontinued": False,
         }
 
-        with pytest.raises(ValueError, match="Missing required key/value"):
+        with pytest.raises(ValueError, match="The price value must be more than Zero, got"):
             Product.from_dict(data)
     
     def test_create_relationship_with_category(self):

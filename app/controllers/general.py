@@ -1,8 +1,8 @@
-from sqlalchemy.orm import Session, DeclarativeBase
+from sqlalchemy.orm import Session, DeclarativeBase, sessionmaker
 from sqlalchemy import select
 from typing import Type, Generic, TypeVar
 from functools import wraps
-from app.db.engine import SessionLocal
+from app.db.engine import create_sessionLocal
 
 T = TypeVar("T", bound=DeclarativeBase)
 
@@ -21,20 +21,24 @@ def transactional(func):
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
+
         
         session = kwargs.get("session")
         
         if session is not None:
             return func(*args, **kwargs)
+
+        session = create_sessionLocal()
         
-        with SessionLocal() as session:
-            try:
-                result = func(*args, session=session, **kwargs)
-                session.commit()
-                return result
-            except:
-                session.rollback()
-                raise
+        try:
+            result = func(*args, session=session, **kwargs)
+            session.commit()
+            return result
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
     return wrapper
 
 class GeneralController(Generic[T]):
